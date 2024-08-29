@@ -8,25 +8,14 @@ import logging
 import os
 import mysql.connector
 from typing import List
-from typing import List
 
 
-# Constants
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
 def filter_datum(fields: List[str], redaction: str, message: str, separator: str) -> str:
     """
     Returns the log message obfuscated.
-    
-    Args:
-        fields: A list of strings representing all fields to obfuscate.
-        redaction: A string representing by what the field will be obfuscated.
-        message: A string representing the log line.
-        separator: A string representing the separator between fields.
-        
-    Returns:
-        The obfuscated log message.
     """
     for field in fields:
         message = re.sub(f"{field}=[^{separator}]+", f"{field}={redaction}", message)
@@ -55,9 +44,6 @@ class RedactingFormatter(logging.Formatter):
 def get_logger() -> logging.Logger:
     """
     Creates and returns a logger that logs sensitive data with obfuscation.
-    
-    Returns:
-        A logger object.
     """
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
@@ -74,9 +60,6 @@ def get_logger() -> logging.Logger:
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """
     Connects to a secure MySQL database and returns the connection object.
-    
-    Returns:
-        A MySQL connection object.
     """
     connection = mysql.connector.connect(
         user=os.getenv("PERSONAL_DATA_DB_USERNAME", "root"),
