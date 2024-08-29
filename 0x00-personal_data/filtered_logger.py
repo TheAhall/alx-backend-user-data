@@ -8,6 +8,7 @@ import logging
 import os
 import mysql.connector
 from typing import List
+from typing import List
 
 
 # Constants
